@@ -1,6 +1,8 @@
 import React, {useState} from "react";
 import {LinkToButton} from "../elements/LinkToButton";
 import {CustomButton} from "../elements/CustomButton";
+import {signUp} from "../../service/ApiService";
+import toast, {Toaster} from "react-hot-toast";
 
 export const SignUpPage = () => {
 
@@ -16,9 +18,46 @@ export const SignUpPage = () => {
     const handleChange = (field: string | number, value: string | number) => {
         setFormData({...formData, [field]: value});
     };
-    const submit = () => {
-        console.log(formData)
-    }
+    const submit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if(formData.password===formData.passwordRepeat){
+
+            signUp(formData).then((status)=>{
+                if (status === 200) {
+                    toast("Zarejestrowano pomyślnie", {
+                        style: {
+                            borderRadius: '10px',
+                            background: '#333',
+                            color: '#fff',
+                        },
+                    })
+                    setTimeout(() => {
+                        window.location.href = "/signin"
+                    }, 1300)
+                } else {
+                    toast("Błąd rejestracji \n sprawdź dane i spróbuj ponownie póżniej ", {
+                        style: {
+                            borderRadius: '10px',
+                            background: '#333',
+                            color: '#fff',
+                            textAlign: "center"
+                        },
+                    })
+                }
+
+            })
+        }else{
+            toast("Hasła nie są identyczne", {
+                style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                },
+            })
+        }
+
+    };
+
 
     return (<>
         <div className={'d-flex align-items-center flex-column pt-5  p-3'}
@@ -60,7 +99,9 @@ export const SignUpPage = () => {
 
                 </form>
             </div>
+            <Toaster/>
         </div>
+
     </>)
 }
 
