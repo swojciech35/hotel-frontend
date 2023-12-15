@@ -30,3 +30,15 @@ export const getRooms = async () => {
         console.error('Get rooms error: ', error);
     }
 }
+
+export const reservation=async(body:any)=>{
+    try {
+        const response = await axios.post(host + "/reservation",body,{headers: {'Content-Type': 'application/json'}})
+        return response.data;
+    }catch (error){
+        console.error('Reservation room error: ', error);
+    }
+
+
+
+}
