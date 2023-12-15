@@ -48,3 +48,12 @@ export const availableRooms = async (body: any) => {
         console.error('Search available room error: ', error);
     }
 }
+
+export const getAllReservations = async () => {
+    try {
+        const response = await axios.get(host + "/reservation/all")
+        return response.data;
+    } catch (error) {
+        console.error('Get reservations error: ', error);
+    }
+}
