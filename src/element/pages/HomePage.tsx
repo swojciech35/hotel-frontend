@@ -1,6 +1,6 @@
 import {HotelRoomCard} from "../elements/HotelRoomCard";
 import React, {useEffect, useState} from "react";
-import {availableRooms, getRooms} from "../../service/ApiService";
+import {availableRooms, getTypesRooms} from "../../service/ApiService";
 import {Col, Form, Row} from "react-bootstrap";
 import toast from "react-hot-toast";
 
@@ -10,7 +10,7 @@ export const HomePage = () => {
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
     useEffect(() => {
-        getRooms().then((rooms: RoomType[]) => {
+        getTypesRooms().then((rooms: RoomType[]) => {
             setRooms(rooms ? rooms : null)
             setFilteredRooms(rooms ? rooms : null)
         })

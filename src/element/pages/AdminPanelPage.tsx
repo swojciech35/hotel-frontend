@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {ReservationCard} from "../elements/ReservationCard";
-import {getAllReservations, getAllRooms} from "../../service/ApiService";
+import {getAllReservations, getAllRooms, getTypesRooms} from "../../service/ApiService";
 import {RoomCardAdminPanel} from "../elements/RoomCardAdminPanel";
+import {RoomTypeAdminPanelCard} from "../elements/RoomTypeAdminPanelCard";
 
 export const AdminPanelPage = () => {
     const [reservations, setReservations] = useState<ReservationCardType[] | null>(null)
     const [rooms, setRooms] = useState<RoomCardAdminPanelType[] | null>(null)
+    const [roomsType, setRoomsType] = useState<RoomTypeAdminPanelType[] | null>(null)
 
     useEffect(() => {
         getAllReservations().then((reservations: ReservationCardType[]) => {
@@ -13,6 +15,10 @@ export const AdminPanelPage = () => {
         })
         getAllRooms().then((rooms: RoomCardAdminPanelType[]) => {
             setRooms(rooms ? rooms : null)
+        })
+
+        getTypesRooms().then((rooms: RoomTypeAdminPanelType[]) => {
+            setRoomsType(rooms ? rooms : null)
         })
     }, []);
 
@@ -46,7 +52,7 @@ export const AdminPanelPage = () => {
                             <RoomCardAdminPanel roomId={room.roomId} roomNumber={room.roomNumber} typeId={room.typeId}
                                                 floor={room.floor} typeName={room.typeName}
                                                 pricePerDay={room.pricePerDay}/>
-                        )):<p>Brak pokoi</p>}
+                        )) : <p>Brak pokoi</p>}
 
 
                     </div>
@@ -55,6 +61,17 @@ export const AdminPanelPage = () => {
                      style={{width: '30%'}}>
                     <h3>Rodzaje pokoi</h3>
                     <div className={'d-flex border-bottom border-black border-4 my-3'}></div>
+                    {
+                        roomsType ? roomsType.map((room, index) => (
+                                <RoomTypeAdminPanelCard id={room.id} name={room.name} numberOfPeople={room.numberOfPeople}
+                                                        numberOfBeds={room.numberOfBeds} bathroom={room.bathroom}
+                                                        balcony={room.balcony} pricePerDay={room.pricePerDay}
+                                                        photoUrl={room.photoUrl}/>
+
+                            )) :
+                            <p>Brak typów pokoi</p>
+                    }
+
                 </div>
 
             </div>
@@ -85,4 +102,15 @@ interface RoomCardAdminPanelType {
     floor: number
     typeName: string
     pricePerDay: number
+}
+
+interface RoomTypeAdminPanelType {
+    id: string
+    name: string
+    numberOfPeople: number
+    numberOfBeds: number
+    bathroom: boolean
+    balcony: boolean
+    pricePerDay: number
+    photoUrl: string
 }

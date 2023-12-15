@@ -22,7 +22,7 @@ export const signUp = async (user: any) => {
     }
 }
 
-export const getRooms = async () => {
+export const getTypesRooms = async () => {
     try {
         const response = await axios.get(host + "/room/type")
         return response.data;
