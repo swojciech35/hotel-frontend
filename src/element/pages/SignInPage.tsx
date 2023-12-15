@@ -20,7 +20,7 @@ export const SignInPage = () => {
                toast("Zalogowano pomyślnie", {
                    style: {
                        borderRadius: '10px',
-                       background: '#333',
+                       background: '#4D1C61',
                        color: '#fff',
                    },
                })
@@ -31,7 +31,7 @@ export const SignInPage = () => {
                toast("Błąd logowania \n sprawdź dane i spróbuj ponownie ", {
                    style: {
                        borderRadius: '10px',
-                       background: '#333',
+                       background: '#4D1C61',
                        color: '#fff',
                        textAlign: "center"
                    },

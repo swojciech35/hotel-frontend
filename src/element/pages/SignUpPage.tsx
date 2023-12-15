@@ -27,7 +27,7 @@ export const SignUpPage = () => {
                     toast("Zarejestrowano pomyślnie", {
                         style: {
                             borderRadius: '10px',
-                            background: '#333',
+                            background: '#4D1C61',
                             color: '#fff',
                         },
                     })
@@ -38,7 +38,7 @@ export const SignUpPage = () => {
                     toast("Błąd rejestracji \n sprawdź dane i spróbuj ponownie póżniej ", {
                         style: {
                             borderRadius: '10px',
-                            background: '#333',
+                            background: '#4D1C61',
                             color: '#fff',
                             textAlign: "center"
                         },
