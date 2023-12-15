@@ -5,11 +5,13 @@ import {CustomButton} from "./CustomButton";
 import {LuBedSingle} from "react-icons/lu";
 import {MdPerson} from "react-icons/md";
 import toast, {Toaster} from "react-hot-toast";
+import {reservation} from "../../service/ApiService";
 
 export const ReservationModalElement = (props: ModalType) => {
     const [show, setShow] = useState(false);
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
+    const [allInclusive, setAllInclusive] = useState(false)
 
 
     useEffect(() => {
@@ -44,6 +46,14 @@ export const ReservationModalElement = (props: ModalType) => {
             })
         }
     }
+    const convertDateFormat = (date: string) => {
+        const parts = date.split('-');
+
+        const [year, month, day] = parts;
+        return `${year}-${month}-${day}`
+    };
+
+
     return (
         <>
             <Modal show={show} onHide={handleClose}>
@@ -92,18 +102,35 @@ export const ReservationModalElement = (props: ModalType) => {
                                 </Form.Group>
                             </Col>
                         </Row>
+                        <div className={'d-flex border-bottom border-black my-3'}></div>
+                        <Form.Group controlId="allInclusiveCheckbox">
+                            <Form.Check
+                                type="checkbox"
+                                label="All inclusive"
+                                onChange={() => setAllInclusive(!allInclusive)}
+                            />
+
+                        </Form.Group>
+
                     </Form>
                 </Modal.Body>
                 <Modal.Footer className={'d-flex justify-content-between'}>
                     <h5>Wynajem na {reservationDaysCalculate() ? reservationDaysCalculate() : 0} dni
                         {reservationDaysCalculate() ? ' (' + props.pricePerDay * reservationDaysCalculate() + ' zł)' : null}</h5>
-                    {reservationDaysCalculate() > 0 ? <CustomButton value={'Zarezerwuj'}></CustomButton> : null}
+                    {reservationDaysCalculate() > 0 ? <CustomButton value={'Zarezerwuj'} onClick={() => reservation({
+                        typeOfRoomId: props.roomTypeId,
+                        reservationRange: {
+                            startDate: convertDateFormat(startDate),
+                            endDate: convertDateFormat(endDate)
+                        }, allInclusive: allInclusive, userId: props.userId
+                    })}></CustomButton> : null}
                 </Modal.Footer>
             </Modal>
             <Toaster/>
         </>
     );
 };
+
 interface ModalType {
     show: boolean
     name: string
@@ -111,4 +138,6 @@ interface ModalType {
     pricePerDay: number
     numberOfBeds: number
     numberOfPeople: number
+    userId: string
+    roomTypeId: string
 }
