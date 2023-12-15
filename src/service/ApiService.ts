@@ -24,21 +24,27 @@ export const signUp = async (user: any) => {
 
 export const getRooms = async () => {
     try {
-        const response = await axios.get(host + "/room/type" )
+        const response = await axios.get(host + "/room/type")
         return response.data;
     } catch (error) {
         console.error('Get rooms error: ', error);
     }
 }
 
-export const reservation=async(body:any)=>{
+export const reservation = async (body: any) => {
     try {
-        const response = await axios.post(host + "/reservation",body,{headers: {'Content-Type': 'application/json'}})
+        const response = await axios.post(host + "/reservation", body, {headers: {'Content-Type': 'application/json'}})
         return response.data;
-    }catch (error){
+    } catch (error) {
         console.error('Reservation room error: ', error);
     }
+}
 
-
-
+export const availableRooms = async (body: any) => {
+    try {
+        const response = await axios.post(host + "/reservation/available", body, {headers: {'Content-Type': 'application/json'}})
+        return response.data;
+    } catch (error) {
+        console.error('Search available room error: ', error);
+    }
 }
