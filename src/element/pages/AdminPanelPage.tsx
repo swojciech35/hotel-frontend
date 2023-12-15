@@ -1,13 +1,18 @@
 import React, {useEffect, useState} from "react";
 import {ReservationCard} from "../elements/ReservationCard";
-import {getAllReservations} from "../../service/ApiService";
+import {getAllReservations, getAllRooms} from "../../service/ApiService";
+import {RoomCardAdminPanel} from "../elements/RoomCardAdminPanel";
 
 export const AdminPanelPage = () => {
     const [reservations, setReservations] = useState<ReservationCardType[] | null>(null)
+    const [rooms, setRooms] = useState<RoomCardAdminPanelType[] | null>(null)
 
     useEffect(() => {
         getAllReservations().then((reservations: ReservationCardType[]) => {
             setReservations(reservations ? reservations : null)
+        })
+        getAllRooms().then((rooms: RoomCardAdminPanelType[]) => {
+            setRooms(rooms ? rooms : null)
         })
     }, []);
 
@@ -36,6 +41,15 @@ export const AdminPanelPage = () => {
                      style={{width: '30%'}}>
                     <h3>Pokoje</h3>
                     <div className={'d-flex flex-column border-bottom border-black border-4 my-3'}></div>
+                    <div style={{overflowY: "auto", maxHeight: '75vh'}}>
+                        {rooms ? rooms.map((room, index) => (
+                            <RoomCardAdminPanel roomId={room.roomId} roomNumber={room.roomNumber} typeId={room.typeId}
+                                                floor={room.floor} typeName={room.typeName}
+                                                pricePerDay={room.pricePerDay}/>
+                        )):<p>Brak pokoi</p>}
+
+
+                    </div>
                 </div>
                 <div className={'d-flex flex-column border border-4 border-black rounded-4 m-2 p-3 '}
                      style={{width: '30%'}}>
@@ -62,4 +76,13 @@ interface ReservationCardType {
     roomFloor: number,
     typeOfRoomName: string,
     numberOfPeople: number
+}
+
+interface RoomCardAdminPanelType {
+    roomId: string
+    roomNumber: number
+    typeId: string
+    floor: number
+    typeName: string
+    pricePerDay: number
 }
