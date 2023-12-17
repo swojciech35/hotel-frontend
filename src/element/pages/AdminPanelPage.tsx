@@ -3,12 +3,14 @@ import {ReservationCard} from "../elements/ReservationCard";
 import {getAllReservations, getAllRooms, getTypesRooms} from "../../service/ApiService";
 import {RoomCardAdminPanel} from "../elements/RoomCardAdminPanel";
 import {RoomTypeAdminPanelCard} from "../elements/RoomTypeAdminPanelCard";
+import {IoMdAdd} from "react-icons/io";
+import {ModalAddNewRoom} from "../elements/ModalAddNewRoom";
 
 export const AdminPanelPage = () => {
     const [reservations, setReservations] = useState<ReservationCardType[] | null>(null)
     const [rooms, setRooms] = useState<RoomCardAdminPanelType[] | null>(null)
     const [roomsType, setRoomsType] = useState<RoomTypeAdminPanelType[] | null>(null)
-
+    const [showModalAddRoom, setShowModalAddRoom] = useState(false)
     useEffect(() => {
         getAllReservations().then((reservations: ReservationCardType[]) => {
             setReservations(reservations ? reservations : null)
@@ -25,7 +27,7 @@ export const AdminPanelPage = () => {
     return (
         <>
             <div className={'d-flex  justify-content-space justify-content-between flex-row p-4'}
-                 style={{backgroundColor: '#FCCE9C', minHeight: '95vh'}}>
+                 style={{backgroundColor: '#FCCE9C', minHeight: '90vh'}}>
                 <div className={'d-flex flex-column border border-4 border-black rounded-4 m-2 p-3 '}
                      style={{width: '33%'}}>
                     <h3>Rezerwacje</h3>
@@ -39,19 +41,23 @@ export const AdminPanelPage = () => {
                                              email={reservations.email} roomNumber={reservations.roomNumber}
                                              roomFloor={reservations.roomFloor}
                                              typeOfRoomName={reservations.typeOfRoomName}
-                                             numberOfPeople={reservations.numberOfPeople}/>
+                                             numberOfPeople={reservations.numberOfPeople} key={index}/>
                         )) : <p>Brak rezerwacji</p>}
                     </div>
                 </div>
                 <div className={'d-flex flex-column border  border-4 border-black rounded-4 m-2 p-3 '}
                      style={{width: '30%'}}>
-                    <h3>Pokoje</h3>
+
+                    <div className={'d-flex flex-row justify-content-between align-items-center'}>
+                        <h3>Pokoje</h3> <IoMdAdd size={40} onClick={()=>setShowModalAddRoom(true)}/>
+                    </div>
+
                     <div className={'d-flex flex-column border-bottom border-black border-4 my-3'}></div>
                     <div style={{overflowY: "auto", maxHeight: '75vh'}}>
                         {rooms ? rooms.map((room, index) => (
                             <RoomCardAdminPanel roomId={room.roomId} roomNumber={room.roomNumber} typeId={room.typeId}
                                                 floor={room.floor} typeName={room.typeName}
-                                                pricePerDay={room.pricePerDay}/>
+                                                pricePerDay={room.pricePerDay} key={index}/>
                         )) : <p>Brak pokoi</p>}
 
 
@@ -59,21 +65,30 @@ export const AdminPanelPage = () => {
                 </div>
                 <div className={'d-flex flex-column border border-4 border-black rounded-4 m-2 p-3 '}
                      style={{width: '30%'}}>
-                    <h3>Rodzaje pokoi</h3>
+
+                    <div className={'d-flex flex-row justify-content-between align-items-center'}>
+                        <h3>Rodzaje pokoi</h3>
+                        <IoMdAdd size={40}/>
+                    </div>
                     <div className={'d-flex border-bottom border-black border-4 my-3'}></div>
-                    {
-                        roomsType ? roomsType.map((room, index) => (
-                                <RoomTypeAdminPanelCard id={room.id} name={room.name} numberOfPeople={room.numberOfPeople}
-                                                        numberOfBeds={room.numberOfBeds} bathroom={room.bathroom}
-                                                        balcony={room.balcony} pricePerDay={room.pricePerDay}
-                                                        photoUrl={room.photoUrl}/>
+                    <div style={{overflowY: "auto", maxHeight: '75vh'}}>
+                        {
+                            roomsType ? roomsType.map((room, index) => (
+                                    <RoomTypeAdminPanelCard id={room.id} name={room.name}
+                                                            numberOfPeople={room.numberOfPeople}
+                                                            numberOfBeds={room.numberOfBeds} bathroom={room.bathroom}
+                                                            balcony={room.balcony} pricePerDay={room.pricePerDay}
+                                                            photoUrl={room.photoUrl} key={index}/>
 
-                            )) :
-                            <p>Brak typów pokoi</p>
-                    }
-
+                                )) :
+                                <p>Brak typów pokoi</p>
+                        }
+                    </div>
                 </div>
-
+                <ModalAddNewRoom show={showModalAddRoom} onClose={() => {
+                    setShowModalAddRoom(false)
+                }}
+                                 roomsType={roomsType}/>
             </div>
         </>
     )
