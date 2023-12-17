@@ -53,6 +53,32 @@ export const ReservationModalElement = (props: ModalType) => {
         return `${year}-${month}-${day}`
     };
 
+    const reserveRoom=()=>{
+        reservation({
+            typeOfRoomId: props.roomTypeId,
+            reservationRange: {
+                startDate: convertDateFormat(startDate),
+                endDate: convertDateFormat(endDate)
+            }, allInclusive: allInclusive, userId: props.userId
+        }).then(status=>{
+            toast(status === 200 ? "Zareserwowano pokój" : 'Wystąpił problem podczas rezerwacji, sprawdź dostępność pokoju i spróbuj ponownie.', {
+                style: {
+                    borderRadius: '10px',
+                    background: '#4D1C61',
+                    color: '#fff',
+                    textAlign: "center"
+                },
+            })
+
+            if (status === 200) {
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1300)
+            }
+        })
+
+    }
+
 
     return (
         <>
@@ -117,13 +143,7 @@ export const ReservationModalElement = (props: ModalType) => {
                 <Modal.Footer className={'d-flex justify-content-between'}>
                     <h5>Wynajem na {reservationDaysCalculate() ? reservationDaysCalculate() : 0} dni
                         {reservationDaysCalculate() ? ' (' + props.pricePerDay * reservationDaysCalculate() + ' zł)' : null}</h5>
-                    {reservationDaysCalculate() > 0 ? <CustomButton value={'Zarezerwuj'} onClick={() => reservation({
-                        typeOfRoomId: props.roomTypeId,
-                        reservationRange: {
-                            startDate: convertDateFormat(startDate),
-                            endDate: convertDateFormat(endDate)
-                        }, allInclusive: allInclusive, userId: props.userId
-                    })}></CustomButton> : null}
+                    {reservationDaysCalculate() > 0 ? <CustomButton value={'Zarezerwuj'} onClick={() => reserveRoom() }></CustomButton> : null}
                 </Modal.Footer>
             </Modal>
             <Toaster/>

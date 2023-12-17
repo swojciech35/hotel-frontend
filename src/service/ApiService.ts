@@ -24,7 +24,23 @@ export const signUp = async (user: any) => {
 
 export const getTypesRooms = async () => {
     try {
-        const response = await axios.get(host + "/room/type")
+        const response = await axios.get(host + "/room/type",
+            {
+                headers:
+                    {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+            })
+        return response.data;
+    } catch (error) {
+        console.error('Get rooms error: ', error);
+    }
+}
+
+export const getRoomsTypesForReservation = async () => {
+    try {
+        const response = await axios.get(host + "/reservation")
         return response.data;
     } catch (error) {
         console.error('Get rooms error: ', error);
@@ -33,10 +49,17 @@ export const getTypesRooms = async () => {
 
 export const reservation = async (body: any) => {
     try {
-        const response = await axios.post(host + "/reservation", body, {headers: {'Content-Type': 'application/json'}})
-        return response.data;
-    } catch (error) {
+        const response = await axios.post(host + "/reservation", body, {
+            headers:
+                {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+        })
+        return response.status;
+    } catch (error: any) {
         console.error('Reservation room error: ', error);
+        return error.response.status;
     }
 }
 
@@ -51,7 +74,15 @@ export const availableRooms = async (body: any) => {
 
 export const getAllReservations = async () => {
     try {
-        const response = await axios.get(host + "/reservation/all")
+        const response = await axios.get(host + "/reservation/all",
+            {
+                headers:
+                    {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+            })
+
         return response.data;
     } catch (error) {
         console.error('Get reservations error: ', error);
@@ -60,7 +91,14 @@ export const getAllReservations = async () => {
 
 export const getAllRooms = async () => {
     try {
-        const response = await axios.get(host + "/room/withtype")
+        const response = await axios.get(host + "/room/withtype",
+            {
+                headers:
+                    {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+            })
         return response.data;
     } catch (error) {
         console.error('Get all rooms error: ', error);
@@ -69,7 +107,14 @@ export const getAllRooms = async () => {
 
 export const addNewRoom = async (body: any) => {
     try {
-        const response = await axios.post(host + "/room", body, {headers: {'Content-Type': 'application/json'}})
+        const response = await axios.post(host + "/room", body,
+            {
+                headers:
+                    {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+            })
         return response.status;
     } catch (error: any) {
         console.error('Add new type room error: ', error);
@@ -79,7 +124,14 @@ export const addNewRoom = async (body: any) => {
 
 export const addNewRoomType = async (body: any) => {
     try {
-        const response = await axios.post(host + "/room/type", body, {headers: {'Content-Type': 'application/json'}})
+        const response = await axios.post(host + "/room/type", body,
+            {
+                headers:
+                    {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+            })
         return response.status;
     } catch (error: any) {
         console.error('Add new type room error: ', error);
