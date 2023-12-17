@@ -63,7 +63,7 @@ export const getAllRooms = async () => {
         const response = await axios.get(host + "/room/withtype")
         return response.data;
     } catch (error) {
-        console.error('Get reservations error: ', error);
+        console.error('Get all rooms error: ', error);
     }
 }
 
@@ -72,7 +72,18 @@ export const addNewRoom = async (body: any) => {
         const response = await axios.post(host + "/room", body, {headers: {'Content-Type': 'application/json'}})
         return response.status;
     } catch (error: any) {
-        console.error('Reservation room error: ', error);
+        console.error('Add new type room error: ', error);
         return error.response.status;
     }
 }
+
+export const addNewRoomType = async (body: any) => {
+    try {
+        const response = await axios.post(host + "/room/type", body, {headers: {'Content-Type': 'application/json'}})
+        return response.status;
+    } catch (error: any) {
+        console.error('Add new type room error: ', error);
+        return error.response.status;
+    }
+}
+

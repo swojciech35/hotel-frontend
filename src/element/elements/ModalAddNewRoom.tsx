@@ -6,7 +6,7 @@ import React, {useEffect, useState} from "react";
 import {addNewRoom} from "../../service/ApiService";
 
 export const ModalAddNewRoom = (props: AddNewRoomType) => {
-    const [show, setShow] = useState(true);
+    const [show, setShow] = useState(false);
     const [roomTypeId, setRoomTypeId] = useState<string | null>(null);
     const [roomNumber, setRoomNumber] = useState('')
     const [floorNumber, setFloorNumber] = useState('')

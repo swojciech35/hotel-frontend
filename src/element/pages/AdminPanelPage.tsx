@@ -5,12 +5,14 @@ import {RoomCardAdminPanel} from "../elements/RoomCardAdminPanel";
 import {RoomTypeAdminPanelCard} from "../elements/RoomTypeAdminPanelCard";
 import {IoMdAdd} from "react-icons/io";
 import {ModalAddNewRoom} from "../elements/ModalAddNewRoom";
+import {ModalAddNewRoomType} from "../elements/ModalAddNewRoomType";
 
 export const AdminPanelPage = () => {
     const [reservations, setReservations] = useState<ReservationCardType[] | null>(null)
     const [rooms, setRooms] = useState<RoomCardAdminPanelType[] | null>(null)
     const [roomsType, setRoomsType] = useState<RoomTypeAdminPanelType[] | null>(null)
     const [showModalAddRoom, setShowModalAddRoom] = useState(false)
+    const [showModalAddRoomType, setShowModalAddRoomType] = useState(false)
     useEffect(() => {
         getAllReservations().then((reservations: ReservationCardType[]) => {
             setReservations(reservations ? reservations : null)
@@ -49,7 +51,7 @@ export const AdminPanelPage = () => {
                      style={{width: '30%'}}>
 
                     <div className={'d-flex flex-row justify-content-between align-items-center'}>
-                        <h3>Pokoje</h3> <IoMdAdd size={40} onClick={()=>setShowModalAddRoom(true)}/>
+                        <h3>Pokoje</h3> <IoMdAdd size={40} onClick={() => setShowModalAddRoom(true)}/>
                     </div>
 
                     <div className={'d-flex flex-column border-bottom border-black border-4 my-3'}></div>
@@ -68,7 +70,7 @@ export const AdminPanelPage = () => {
 
                     <div className={'d-flex flex-row justify-content-between align-items-center'}>
                         <h3>Rodzaje pokoi</h3>
-                        <IoMdAdd size={40}/>
+                        <IoMdAdd size={40} onClick={() => setShowModalAddRoomType(true)}/>
                     </div>
                     <div className={'d-flex border-bottom border-black border-4 my-3'}></div>
                     <div style={{overflowY: "auto", maxHeight: '75vh'}}>
@@ -89,7 +91,13 @@ export const AdminPanelPage = () => {
                     setShowModalAddRoom(false)
                 }}
                                  roomsType={roomsType}/>
+                <ModalAddNewRoomType show={showModalAddRoomType} onClose={() => {
+                    setShowModalAddRoomType(false)
+                }}></ModalAddNewRoomType>
+
             </div>
+
+
         </>
     )
 
