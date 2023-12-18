@@ -6,9 +6,11 @@ import {RoomTypeAdminPanelCard} from "../elements/RoomTypeAdminPanelCard";
 import {IoMdAdd} from "react-icons/io";
 import {ModalAddNewRoom} from "../elements/ModalAddNewRoom";
 import {ModalAddNewRoomType} from "../elements/ModalAddNewRoomType";
+import {FaSearch} from "react-icons/fa";
 
 export const AdminPanelPage = () => {
     const [reservations, setReservations] = useState<ReservationCardType[] | null>(null)
+    const [filteredReservations, setFilteredReservations] = useState<ReservationCardType[] | null>(null)
     const [rooms, setRooms] = useState<RoomCardAdminPanelType[] | null>(null)
     const [roomsType, setRoomsType] = useState<RoomTypeAdminPanelType[] | null>(null)
     const [showModalAddRoom, setShowModalAddRoom] = useState(false)
@@ -16,6 +18,7 @@ export const AdminPanelPage = () => {
     useEffect(() => {
         getAllReservations().then((reservations: ReservationCardType[]) => {
             setReservations(reservations ? reservations : null)
+            setFilteredReservations(reservations ? reservations : null)
         })
         getAllRooms().then((rooms: RoomCardAdminPanelType[]) => {
             setRooms(rooms ? rooms : null)
@@ -26,16 +29,31 @@ export const AdminPanelPage = () => {
         })
     }, []);
 
+    const filter = (value: string) => {
+        if (reservations && value.length > 0) {
+            const filtered = reservations.filter(reservation => reservation.email.includes(value))
+            setFilteredReservations(filtered)
+        } else {
+            setFilteredReservations(reservations);
+        }
+    }
     return (
         <>
             <div className={'d-flex  justify-content-space justify-content-between flex-row p-4'}
                  style={{backgroundColor: '#FCCE9C', minHeight: '90vh'}}>
                 <div className={'d-flex flex-column border border-4 border-black rounded-4 m-2 p-3 '}
                      style={{width: '33%'}}>
-                    <h3>Rezerwacje</h3>
+                    <div className={'d-flex flex-row justify-content-between align-items-center'}>
+                        <h3>Rezerwacje</h3>
+                        <div className={'d-flex align-items-center '}>
+                            <FaSearch size={25}/>
+                            <input type="text" className="form-control ms-3" id="search" placeholder="wpisz email"
+                                   onChange={(e) => filter(e.target.value)}/>
+                        </div>
+                    </div>
                     <div className={'d-flex border-bottom border-black border-4 my-3'}></div>
                     <div style={{overflowY: "auto", maxHeight: '75vh'}}>
-                        {reservations ? reservations.map((reservations, index) => (
+                        {filteredReservations ? filteredReservations.map((reservations, index) => (
                             <ReservationCard reservationId={reservations.reservationId}
                                              startDate={reservations.startDate} endDate={reservations.endDate}
                                              allInclusive={reservations.allInclusive} price={reservations.price}
@@ -49,11 +67,9 @@ export const AdminPanelPage = () => {
                 </div>
                 <div className={'d-flex flex-column border  border-4 border-black rounded-4 m-2 p-3 '}
                      style={{width: '30%'}}>
-
                     <div className={'d-flex flex-row justify-content-between align-items-center'}>
                         <h3>Pokoje</h3> <IoMdAdd size={40} onClick={() => setShowModalAddRoom(true)}/>
                     </div>
-
                     <div className={'d-flex flex-column border-bottom border-black border-4 my-3'}></div>
                     <div style={{overflowY: "auto", maxHeight: '75vh'}}>
                         {rooms ? rooms.map((room, index) => (
@@ -61,8 +77,6 @@ export const AdminPanelPage = () => {
                                                 floor={room.floor} typeName={room.typeName}
                                                 pricePerDay={room.pricePerDay} key={index}/>
                         )) : <p>Brak pokoi</p>}
-
-
                     </div>
                 </div>
                 <div className={'d-flex flex-column border border-4 border-black rounded-4 m-2 p-3 '}
@@ -94,13 +108,9 @@ export const AdminPanelPage = () => {
                 <ModalAddNewRoomType show={showModalAddRoomType} onClose={() => {
                     setShowModalAddRoomType(false)
                 }}></ModalAddNewRoomType>
-
             </div>
-
-
         </>
     )
-
 }
 
 interface ReservationCardType {
