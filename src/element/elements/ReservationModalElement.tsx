@@ -141,7 +141,7 @@ export const ReservationModalElement = (props: ModalType) => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer className={'d-flex justify-content-between'}>
-                    <h5>Wynajem na {reservationDaysCalculate() ? reservationDaysCalculate() : 0} dni
+                    <h5>Rezerwacja na {reservationDaysCalculate() ? reservationDaysCalculate() : 0} dni
                         {reservationDaysCalculate() ? ' (' + props.pricePerDay * reservationDaysCalculate() + ' zł)' : null}</h5>
                     {reservationDaysCalculate() > 0 ? <CustomButton value={'Zarezerwuj'} onClick={() => reserveRoom() }></CustomButton> : null}
                 </Modal.Footer>

@@ -35,7 +35,7 @@ export const SignUpPage = () => {
                         window.location.href = "/signin"
                     }, 1300)
                 } else {
-                    toast("Błąd rejestracji \n sprawdź dane i spróbuj ponownie póżniej ", {
+                    toast(status===409? "Błąd rejestracji \nUżytkownik o podanym adresie Email już istnieje":"Błąd rejestracji \n sprawdź dane i spróbuj ponownie póżniej ", {
                         style: {
                             borderRadius: '10px',
                             background: '#4D1C61',
@@ -50,8 +50,9 @@ export const SignUpPage = () => {
             toast("Hasła nie są identyczne", {
                 style: {
                     borderRadius: '10px',
-                    background: '#333',
+                    background: '#4D1C61',
                     color: '#fff',
+                    textAlign: "center"
                 },
             })
         }

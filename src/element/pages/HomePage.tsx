@@ -11,8 +11,8 @@ export const HomePage = () => {
     const [endDate, setEndDate] = useState('')
     useEffect(() => {
         getRoomsTypesForReservation().then((rooms: RoomType[]) => {
-            setRooms(rooms ? rooms : null)
-            setFilteredRooms(rooms ? rooms : null)
+            setRooms(rooms.length>0 ? rooms : null)
+            setFilteredRooms(rooms.length>0 ? rooms : null)
         })
     }, []);
 
@@ -106,7 +106,7 @@ export const HomePage = () => {
                         <HotelRoomCard key={index} id={room.id} name={room.name} numberOfPeople={room.numberOfPeople}
                                        numberOfBeds={room.numberOfBeds} bathroom={room.bathroom} balcony={room.balcony}
                                        pricePerDay={room.pricePerDay} photoUrl={room.photoUrl}/>
-                    )) : null
+                    )) : <p>brak wolnych pokoi</p>
                 }
             </div>
         </div>

@@ -49,7 +49,7 @@ export const getRoomsTypesForReservation = async () => {
 
 export const reservation = async (body: any) => {
     try {
-        const response = await axios.post(host + "/reservation", body, {
+        const response = await axios.post(host + "/reservation/", body, {
             headers:
                 {
                     'Content-Type': 'application/json',

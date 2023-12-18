@@ -17,8 +17,8 @@ export const RoomTypeAdminPanelCard = (props: RoomTypeAdminPanelType) => {
                            alt={props.name}/>
                 </div>
                 <div className={'d-flex flex-column '} style={{width: '70%'}}>
-                    <h3 className={'d-flex align-items-center justify-content-center'}><strong>{props.name}</strong>
-                    </h3>
+                    <h4 className={'d-flex align-items-center justify-content-center'}><strong>{props.name}</strong>
+                    </h4>
                     <div className={'d-flex flex-row justify-content-between align-items-center'}>
                         <div className={'d-flex flex-column align-items-center mx-3'}>
                             <LuBedSingle size={30}/>
