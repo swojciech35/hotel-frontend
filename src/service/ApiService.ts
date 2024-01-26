@@ -139,3 +139,35 @@ export const addNewRoomType = async (body: any) => {
     }
 }
 
+    export const deleteRoom = async (roomId: string) => {
+        try {
+            const response = await axios.delete(host + "/room/"+roomId,
+                {
+                    headers:
+                        {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        }
+                })
+            return response.status;
+        } catch (error: any) {
+            console.error('Add new type room error: ', error);
+            return error.response.status;
+        }
+}
+    export const deleteReservationByRoomId = async (roomId: string) => {
+        try {
+            const response = await axios.delete(host + "/reservation/"+roomId,
+                {
+                    headers:
+                        {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        }
+                })
+            return response.status;
+        } catch (error: any) {
+            console.error('Add new type room error: ', error);
+            return error.response.status;
+        }
+}
